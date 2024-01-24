@@ -141,6 +141,6 @@ function init(){
             startTimer();
         }
     });
-}
+};
 
 init();
