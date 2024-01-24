@@ -4,6 +4,7 @@ var quizQuestions = document.getElementById('quiz-questions');
 var quizOptions = document.getElementById('quiz-options');
 var timer = document.getElementById('counter');
 var timerInterval = null;
+var isGameOver = false;
 var questions = [
     {
         question: "What is CSS?",
@@ -45,18 +46,21 @@ var questions = [
 ];
 
 function startTimer(){
-    var secondsLeft = 5;
-    clearInterval(timerInterval); 
-    timerInterval = null;
+    var secondsLeft = 30;
     var timerInterval = setInterval(function(){
      secondsLeft--;
      timer.textContent = secondsLeft + " Seconds Remaining";
  
      if(secondsLeft === 0){
+        timer.textContent = '';
         clearInterval(timerInterval);
         restartGame();
-     }
- 
+     }if(isGameOver){
+        timer.textContent = '';
+        clearInterval(timerInterval);
+        restartGame();
+        isGameOver = false;
+     };
     },1000);
 };
 
@@ -97,9 +101,7 @@ function nextQuestion(){
 var highScores = [];
 
 function endGame(){
-    clearInterval(timerInterval);
-    timerInterval = null;
-    timer.textContent = '';
+    isGameOver = true;
     alert("You Scored: " + score + " out of 4");
     userIntitials = prompt("Enter Your initials");
 
@@ -125,7 +127,6 @@ function getHighScoresText() {
 function restartGame(){
     questionIndex = 0;
     score = 0;
-    timer.textContent = '';
     quizOptions.innerHTML = '';
     startButton.style.display = 'inline-block';
     init();
@@ -133,7 +134,6 @@ function restartGame(){
 
 function init(){
     startButton.style.display ='inline-block';
-    timer.textContent = '';
     startButton.addEventListener('click', function(){
         if (startButton) {
             startButton.style.display = 'none';
